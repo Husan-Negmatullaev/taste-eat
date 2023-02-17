@@ -1,0 +1,1551 @@
+@use "sass:math";
+
+// Подключение миксинов ===========================================================================================================================================================================================================================================================================
+@import "base/mixins";
+
+// Подключение шрифтов ===========================================================================================================================================================================================================================================================================
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Infant:wght@400;700&family=Josefin+Sans&display=swap&subset=cyrillic-ext');
+//&display=swap - добавить при подключении через плагин
+
+// Подключить если есть локальные файлы шрифтов
+@import "fonts/fonts";
+
+// Подключение иконочных шрифтов ==============================================================================================================================================================================================================================================================================
+// Подключить если есть файл иконочного шрифта
+@import "fonts/icons";
+
+// Шрифт по умолчанию ==============================================================================================================================================================================================================================================================================
+$fontFamily: "Josefin Sans";
+$fontSize: rem(14); // где 14(px) - размер шрифта по умолчанию из макета
+
+// Основные цвета
+$mainColor: #000; // Цвет шрифта по умолчанию
+
+// НАСТРОЙКИ ===============================================================================================================================================================================================================================================================================================
+// Минимальная ширина страницы
+$minWidth: 320;
+// Ширина полотна (макета)
+$maxWidth: 1440;
+// Ширина ограничивающего контейнера (0 = нет ограничения)
+$maxWidthContainer: 1360;
+// Общий отступ у контейнера
+// (30 = по 15px слева и справа, 0 = нет отступа)
+$containerPadding: 30;
+
+// Ширина срабатывания первого брейкпоинта
+$containerWidth: $maxWidthContainer + $containerPadding;
+
+// Брейк-поинты
+$pc: em($containerWidth); // ПК, ноутбуки, некоторые планшеты в горизонтальном положении
+$tablet: em(991.98); // Планшеты, некоторые телефоны в горизонтальном положении
+$mobile: em(767.98); // Телефоны L
+$mobileSmall: em(479.98); // Телефоны S
+
+// Главне цвета
+$orangeColor: #E1B168;
+$blackColor: #292E36;
+$whiteColor: #FFFFFF;
+
+// Тип адаптива:
+// 1 = отзывчивость (у контейнера нет брейкпоинтов),
+// 2 = по брейк-поинтам (контейнер меняет свою ширину по брейк-поинтам)
+$responsiveType: 1;
+
+// Обнуление и общие параметры ============================================================================================================================================================================================== =============================================================================================== ===============================================================================================
+@import "base/null";
+
+body {
+  color: $blackColor;
+
+  // Скролл заблокирован
+  .lock & {
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  // Сайт загружен
+  .loaded & {}
+}
+
+// Оболочка ============================================================================================================================================================================================================================================================================================================================================================================================================================================
+.wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+
+  // Прижимаем footer
+  >main {
+    flex: 1 1 auto;
+  }
+
+  // Фикс для слайдеров
+  >* {
+    min-width: 0;
+  }
+}
+
+// Ограничивающий контейнер ======================================================================================================================================================================================================================
+
+/*
+(i) Стили будут применяться ко 
+всем классам содержащим *__container
+Например header__container, main__container и т.д.
+Снипет (HTML): cnt
+*/
+@if ($responsiveType==1) {
+
+  // Отзывчивая
+  [class*="__container"] {
+    @if ($maxWidthContainer>0) {
+      max-width: rem($maxWidthContainer);
+      box-sizing: content-box;
+      margin: 0 auto;
+    }
+
+    @if ($containerPadding>0) {
+      padding: 0 rem(math.div($containerPadding, 2));
+    }
+  }
+}
+
+@else {
+
+  // По брейк-поинтам
+  [class*="__container"] {
+    margin: 0 auto;
+
+    @if ($maxWidthContainer>0) {
+      max-width: rem($maxWidthContainer);
+      box-sizing: content-box;
+    }
+
+    @else {
+      @if ($containerPadding>0) {
+        padding: 0 rem(math.div($containerPadding, 2));
+      }
+    }
+
+    @media (max-width: $pc) {
+      max-width: rem(970);
+    }
+
+    @media (max-width: $tablet) {
+      max-width: rem(750);
+    }
+
+    @media (max-width: $mobile) {
+      max-width: none;
+
+      @if ($containerPadding>0 and $maxWidthContainer>0) {
+        padding: 0 rem(math.div($containerPadding, 2));
+      }
+    }
+  }
+}
+
+// Подключение базовых стилей, шаблонов (заготовок) и вспомогательных  классов
+// Для подключения/отключения конкретных стилей смотри base.scss
+@import "base";
+
+// Подключение стилей общих элементов проекта
+@import "common";
+
+// Подключение стилей отдельных блоков
+@import "header";
+@import "footer";
+
+// Подключение стилей отдельных страниц
+@import "home";
+
+/* ===================================== */
+
+.page {
+
+  // .page__main-block
+
+  &__main-block {}
+
+  // .page__info-block
+
+  &__info-block {}
+
+  // .page__story
+
+  &__story {}
+
+  // .page__dishes
+
+  &__dishes {}
+
+  // .page__testimonial
+
+  &__testimonial {}
+
+  // .page__photo
+
+  &__photo {}
+
+  // .page__offers
+
+  &__offers {}
+
+  // .page__popular-dishes
+
+  &__popular-dishes {}
+
+  // .page__services
+
+  &__services {}
+
+  // .page__news
+
+  &__news {}
+
+  // .page__reservation
+
+  &__reservation {}
+
+  // .page__reservation
+
+  &__reservation {}
+}
+
+// ==========================
+
+.main-block {
+  @include adaptiveValue("padding-top", 45, 20, $containerWidth, $minWidth, 1);
+  @include adaptiveValue("padding-bottom", 45, 20, $containerWidth, $minWidth, 1);
+  background-color: $blackColor;
+  // .main-block__container
+
+  &__container {}
+
+  // .main-block__body
+
+  &__body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  // .main-block__content
+
+  &__content {
+    @include adaptiveValue("margin-right", 50, 20, $containerWidth, $minWidth, 1);
+  }
+
+  // .main-block__title
+
+  &__title {
+    font-family: 'Cormorant Infant';
+    letter-spacing: 0.2px;
+    line-height: math.div(110, 100);
+    color: #fff;
+    @include adaptiveValue("font-size", 100, 40, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("margin-bottom", 25, 15, $containerWidth, $minWidth, 1);
+  }
+
+  // .main-block__text
+
+  &__text {
+    @extend .text;
+    color: #fff;
+
+    &:not(:last-child) {
+      @include adaptiveValue("margin-bottom", 35, 20, $containerWidth, $minWidth, 1);
+    }
+  }
+
+  // .main-block__button
+
+  &__button {}
+
+  // .main-block__image-ibg
+
+  &__image-ibg {
+    @media (max-width:$mobile) {
+      display: none;
+    }
+
+    flex: 0 0 percent(655, $containerWidth);
+    padding-bottom: percent(655, $containerWidth);
+    outline: 30px solid rgba(255, 255, 255, 0.1);
+    margin: 0px 30px 0px 0px;
+    position: relative;
+
+    &::after,
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      background-color: $blackColor;
+      width: 30px;
+      height: 30px;
+    }
+
+    &::after {
+      top: -30px;
+      left: -30px;
+    }
+
+    &::before {
+      top: -30px;
+      right: -30px;
+    }
+
+    img {
+      padding: 20px 20px 0 20px;
+      border-radius: 626px 626px 0px 0px;
+    }
+  }
+
+  img.main-block__image-fragment {
+    width: rem(313);
+    height: rem(313);
+
+    @media (max-width:$tablet) {
+      display: none;
+    }
+
+    display: block;
+    position: absolute;
+    z-index: 2;
+    top: 26px;
+    right: 12px;
+    left: auto;
+    padding: 0;
+    border-radius: 0;
+    object-fit: none;
+    animation: infinite-spinning 20s infinite linear;
+    // margin: 26px 12px 0px 0px;
+  }
+}
+
+@keyframes infinite-spinning {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// ==========================
+
+.info-block {
+  @include adaptiveValue("padding-top", 100, 40, $containerWidth, $minWidth, 1);
+  // .info-block__container
+
+  &__container {}
+
+  // .info-block__body
+
+  &__body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px -15px;
+    flex-wrap: wrap;
+  }
+
+  // .info-block__item-info
+
+  &__item-info {
+    flex: 1 1 33.333%;
+    padding: 0px 15px;
+
+    @media (max-width:$mobile) {
+      flex: 1 1 100%;
+    }
+  }
+}
+
+.item-info {
+  @include adaptiveValue("margin-bottom", 60, 20, $containerWidth, $minWidth, 1);
+  // .item-info__body
+
+  &__body {
+    display: flex;
+    align-items: center;
+  }
+
+  // .item-info__icon
+
+  &__icon {
+    margin: 0px 20px 0px 0px;
+    background-color: $blackColor;
+    border-radius: 50%;
+    flex: 0 0 52px;
+    padding: 10px;
+
+    img {
+      width: 41px;
+      height: 41px;
+    }
+  }
+
+  // .item-info__content
+
+  &__content {}
+
+  // .item-info__title
+
+  &__title {
+    font-family: 'Cormorant Infant';
+    @include adaptiveValue("font-size", 30, 20, $containerWidth, $minWidth, 1);
+    line-height: math.div(39, 30);
+    letter-spacing: 0.2px;
+    color: $blackColor;
+  }
+
+  // .item-info__subtitle
+
+  &__subtitle {}
+}
+
+// ==========================
+
+.story {
+  background-color: #FFF8F5;
+  @include adaptiveValue("padding-top", 85, 25, $containerWidth, $minWidth, 1);
+  @include adaptiveValue("padding-bottom", 125, 20, $containerWidth, $minWidth, 1);
+  @include adaptiveValue("margin-bottom", 120, 20, $containerWidth, $minWidth, 1);
+  // .story__container
+
+  &__container {}
+
+  // .story__body
+
+  &__body {
+    display: flex;
+    justify-content: space-between;
+
+    // flex-wrap: wrap;
+    // align-items: center;
+    @media (max-width:$mobile) {
+      flex-wrap: wrap;
+    }
+  }
+
+  // .story__image-ibg
+
+  &__image-ibg {
+    flex: 0 1 71.697122%;
+    padding-bottom: 39.397122%;
+
+    @media (min-width:$mobile) {
+      @include adaptiveValue("margin-right", 45, 20, $containerWidth, $minWidth, 1);
+    }
+
+    @media (max-width:$mobile) {
+      flex: 1 1 100%;
+      margin-bottom: rem(10);
+    }
+  }
+
+  // .story__content
+
+  &__content {}
+
+  // .story__title
+
+  &__title {
+    @include adaptiveValue("margin-bottom", 15, 10, $containerWidth, $minWidth, 1);
+  }
+
+  // .story__text
+
+  &__text {
+    @include adaptiveValue("font-size", 20, 16, $containerWidth, $minWidth, 1);
+    line-height: math.div(30, 20);
+    letter-spacing: 0.2px;
+    color: #555555;
+    margin: 0px 0px 5px 0px;
+  }
+
+  // .story__date
+
+  &__date {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  // .story__date-item
+
+  &__date-item {
+    flex: 1 1 50%;
+    margin: 0px 0px 15px 0px;
+    padding: 20px 25px 5px 0px;
+
+    @media (max-width:$mobileSmall) {
+      flex: 1 1 100%;
+    }
+  }
+
+  // .story__date-title
+
+  &__date-title {
+    font-family: 'Cormorant Infant';
+    @include adaptiveValue("font-size", 40, 20, $containerWidth, $minWidth, 1);
+    line-height: math.div(56, 40);
+    letter-spacing: 0.2px;
+    color: $blackColor;
+    @include adaptiveValue("margin-bottom", 15, 10, $containerWidth, $minWidth, 1);
+  }
+
+  // .story__date-text
+
+  &__date-text {
+    @include adaptiveValue("font-size", 20, 16, $containerWidth, $minWidth, 1);
+    line-height: math.div(30, 20);
+    letter-spacing: 0.2px;
+    color: #555555;
+  }
+
+  // .story__signature
+
+  &__signature {}
+
+  // .story__signature-text
+
+  &__signature-text {
+    letter-spacing: 0.2px;
+    color: #555555;
+    line-height: math.div(30, 20);
+    @include adaptiveValue("font-size", 20, 16, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("margin-bottom", 20, 10, $containerWidth, $minWidth, 1);
+  }
+
+  // .story__signature-image
+
+  &__signature-image {}
+}
+
+// ==========================
+
+.dishes {
+  @include adaptiveValue("margin-bottom", 140, 30, $containerWidth, $minWidth, 1);
+  // .dishes__container
+
+  &__container {}
+
+  // .dishes__body
+
+  &__body {
+    display: flex;
+
+    @media (max-width: rem(768.98)) {
+      flex-direction: column;
+      flex-wrap: wrap;
+    }
+  }
+
+  // .dishes__try
+
+  &__try {
+    flex: 0 0 491px;
+
+    @media (min-width:$mobile) {
+      @include adaptiveValue("margin-right", 50, 25, $containerWidth, $minWidth, 1);
+    }
+
+    @media (max-width:$mobile) {
+      flex: 1 1 100%;
+    }
+  }
+
+  // .dishes__starters
+
+  &__starters {
+    flex: 1 1 auto;
+
+    @media (max-width:$mobile) {
+      flex: 1 1 100%;
+      @include adaptiveValue("margin-top", 25, 15, $containerWidth, $minWidth, 1);
+    }
+  }
+}
+
+.try {
+
+  // .try__theme
+
+  &__theme {
+    @include adaptiveValue("margin-bottom", 12, 8, $containerWidth, $minWidth, 1);
+  }
+
+  // .try__title
+
+  &__title {
+    @include adaptiveValue("margin-bottom", 13, 9, $containerWidth, $minWidth, 1);
+  }
+
+  // .try__text
+
+  &__text {
+    @include adaptiveValue("margin-bottom", 45, 20, $containerWidth, $minWidth, 1);
+  }
+
+  // .try__image-ibg
+
+  &__image-ibg {
+    padding-bottom: 100%;
+    max-width: 398px;
+
+    @media (max-width:rem(768.98)) {
+      max-width: none;
+      padding-bottom: 80%;
+    }
+
+    @include adaptiveValue("margin-bottom", 60, 20, $containerWidth, $minWidth, 1);
+  }
+
+  // .try__button
+
+  &__button {}
+}
+
+.starters {
+
+  // .starters__body
+
+  &__body {}
+
+  &__menu {
+    &:not(:last-child) {
+      @include adaptiveValue("margin-bottom", 75, 15, $containerWidth, $minWidth, 1);
+    }
+  }
+
+  // .starters__title
+
+  &__title {
+    font-family: 'Cormorant Infant';
+    @include adaptiveValue("margin-bottom", 40, 15, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("font-size", 36, 20, $containerWidth, $minWidth, 1);
+    line-height: math.div(50, 36);
+    letter-spacing: 0.2px;
+    color: $blackColor;
+    position: relative;
+
+    @media (max-width: rem(768.98)) {
+      cursor: pointer;
+
+      &::after,
+      &::before {
+        content: '';
+        position: absolute;
+        display: block;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 0;
+        background-color: $blackColor;
+        height: 2px;
+        width: 15px;
+        border-radius: 10px;
+        transition: all 0.3s ease 0s;
+      }
+
+      &::before {
+        right: 12px;
+        transform: rotate(-35deg);
+      }
+
+      &::after {
+        transform: rotate(35deg);
+      }
+
+      &._spoller-active::after {
+        transform: rotate(-35deg);
+      }
+
+      &._spoller-active::before {
+        transform: rotate(35deg);
+      }
+    }
+  }
+
+  // .starters__content
+
+  &__content {}
+
+  // .starters__item
+
+  &__item {}
+
+}
+
+.starters-item {
+  &:not(:last-child) {
+    @include adaptiveValue("margin-bottom", 50, 15, $containerWidth, $minWidth, 1);
+  }
+
+  // .starters-item__body
+
+  &__body {
+    display: flex;
+    align-items: center;
+  }
+
+  // .starters-item__image
+  &__image {
+    flex: 0 0 84px;
+    border-radius: 50%;
+    overflow: hidden;
+    @include adaptiveValue("margin-right", 20, 10, $containerWidth, $minWidth, 1);
+
+    @media (max-width:$mobile) {
+      flex: 0 0 64px;
+
+      img {
+        max-width: 100%;
+      }
+    }
+  }
+
+  // .starters-item__content
+  &__content {
+    @include adaptiveValue("margin-right", 10, 5, $containerWidth, $minWidth, 1);
+  }
+
+  // .starters-item__title
+
+  &__title {}
+
+  // .starters-item__text
+
+  &__text {}
+
+  // .starters-item__line
+
+  &__line {
+    flex: 1 1 auto;
+    align-self: flex-end;
+    border-bottom: 2px solid #AAAAAA;
+    transform: translateY(-18px);
+  }
+
+  // .starters-item__price
+
+  &__price {
+    font-family: 'Cormorant Infant';
+    @include adaptiveValue("font-size", 30, 18, $containerWidth, $minWidth, 1);
+    line-height: math.div(42, 30);
+    letter-spacing: 0.2px;
+    @include adaptiveValue("margin-left", 10, 5, $containerWidth, $minWidth, 1);
+  }
+}
+
+// ==========================
+
+.testimonial {
+  @include adaptiveValue("padding-top", 140, 40, $containerWidth, $minWidth, 1);
+  @include adaptiveValue("padding-bottom", 120, 20, $containerWidth, $minWidth, 1);
+  background-color: $blackColor;
+  // .testimonial__container
+
+  &__container {}
+
+  // .testimonial__body
+
+  &__body {}
+
+  // .testimonial__theme
+
+  &__theme {
+    @include adaptiveValue("margin-bottom", 12, 8, $containerWidth, $minWidth, 1);
+  }
+
+  // .testimonial__title
+
+  &__title {
+    @include adaptiveValue("margin-bottom", 8, 6, $containerWidth, $minWidth, 1);
+  }
+
+  // .testimonial__text
+
+  &__text {
+    @include adaptiveValue("margin-bottom", 40, 20, $containerWidth, $minWidth, 1);
+  }
+
+  // .testimonial__content
+
+  &__slider {}
+
+  &__pagination {
+    display: flex;
+    justify-content: center;
+    @include adaptiveValue("margin-top", 50, 20, $containerWidth, $minWidth, 1);
+
+    span {
+      display: block;
+      @include adaptiveValue("width", 20, 10, $containerWidth, $minWidth, 1);
+      @include adaptiveValue("height", 20, 10, $containerWidth, $minWidth, 1);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease 0s;
+      background-color: rgba(255, 255, 255, 0.4);
+
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
+
+      &.swiper-pagination-bullet-active {
+        background-color: #fff;
+      }
+    }
+  }
+}
+
+.testimonial-slider {
+
+  // .testimonial-slider__body
+
+  &__body {}
+
+  // .testimonial-slider__wrapper
+
+  &__wrapper {}
+
+  // .testimonial-slider__slide
+
+  &__slide {
+    background-color: #343942;
+    @include adaptiveValue("padding-left", 40, 20, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("padding-right", 40, 20, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("padding-top", 30, 15, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("padding-bottom", 30, 15, $containerWidth, $minWidth, 1);
+
+    @media (min-width:$mobile) {
+      min-width: 533px;
+    }
+  }
+
+  // .testimonial-slider__profile
+
+  &__profile {
+    display: flex;
+    align-items: center;
+    position: relative;
+    @include adaptiveValue("padding-bottom", 30, 15, $containerWidth, $minWidth, 1);
+    border-bottom: 1px solid #797E89;
+  }
+
+  // .testimonial-slider__quotes
+
+  &__quotes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #E1B168;
+    border: 2px solid #292E36;
+    border-radius: 50%;
+    padding: 5px;
+  }
+
+  // .testimonial-slider__image
+
+  &__image {
+    @include adaptiveValue("width", 113, 70, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("height", 113, 70, $containerWidth, $minWidth, 1);
+
+    img {
+      max-width: 100%;
+    }
+  }
+
+  &__content {
+    @include adaptiveValue("margin-left", 30, 10, $containerWidth, $minWidth, 1);
+    flex: 1 1 auto;
+  }
+
+  // .testimonial-slider__title
+
+  &__title {
+    font-family: 'Cormorant Infant';
+    @include adaptiveValue("font-size", 30, 20, $containerWidth, $minWidth, 1);
+    line-height: math.div(42, 30);
+    letter-spacing: 0.2px;
+    color: #FFFFFF;
+  }
+
+  // .testimonial-slider__subtitle
+
+  &__subtitle {
+    @include adaptiveValue("font-size", 20, 16, $containerWidth, $minWidth, 1);
+    line-height: math.div(30, 20);
+    letter-spacing: 0.2px;
+    color: #E1B168;
+  }
+
+  // .testimonial-slider__description
+
+  &__description {
+    @include adaptiveValue("padding-top", 30, 15, $containerWidth, $minWidth, 1);
+  }
+
+  // .testimonial-slider__text
+
+  &__text {
+    font-family: 'Cormorant Infant';
+    @include adaptiveValue("font-size", 24, 18, $containerWidth, $minWidth, 1);
+    line-height: math.div(38, 24);
+    letter-spacing: 0.25px;
+    color: #FFFFFF;
+  }
+}
+
+// ==========================
+
+.photo {
+
+  // .photo__image-ibg
+  @include adaptiveValue("margin-bottom", 140, 40, $containerWidth, $minWidth, 1);
+
+  &__image-ibg {
+    padding-bottom: 41%;
+  }
+}
+
+// ==========================
+
+.offers {
+
+  // .offers__container
+
+  &__container {}
+
+  // .offers__body
+
+  &__body {
+    text-align: center;
+  }
+
+  // .offers__theme
+
+  &__theme {
+    @include adaptiveValue("margin-bottom", 12, 8, $containerWidth, $minWidth, 1);
+  }
+
+  // .offers__title
+
+  &__title {
+    margin-bottom: rem(8);
+  }
+
+  // .offers__text
+
+  &__text {
+    @include adaptiveValue("margin-bottom", 40, 20, $containerWidth, $minWidth, 1);
+  }
+
+  // .offers__content
+
+  &__content {
+    text-align: left;
+    display: flex;
+    margin: 0px -30px;
+
+    @media (max-width:$tablet) {
+      flex-direction: column;
+    }
+
+    @include adaptiveValue("margin-bottom", 60, 10, $containerWidth, $minWidth, 1);
+  }
+
+  // .offers__item
+
+  &__item {
+    flex: 0 1 50%;
+    padding: 0px 15px;
+
+    @media (max-width:$tablet) {
+      flex: 1 1 100%;
+    }
+
+    @include adaptiveValue("margin-bottom", 40, 20, $containerWidth, $minWidth, 1);
+  }
+}
+
+.offers-item {
+
+  &_blue {
+    .offers-item__body {
+      background: #C5EAF2 url("@img/offers/03.png") 0 0 / cover no-repeat;
+    }
+  }
+
+  &_grey {
+    .offers-item__body {
+      background: #E8E8E8 url("@img/offers/04.png") 0 0 / cover no-repeat;
+    }
+  }
+
+  // .offers-item__body
+
+  &__body {
+    @include adaptiveValue("padding-top", 40, 15, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("padding-bottom", 40, 15, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("padding-left", 40, 15, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("padding-right", 40, 15, $containerWidth, $minWidth, 1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @media (max-width:$mobileSmall) {
+      flex-direction: column-reverse;
+    }
+  }
+
+  // .offers-item__content
+
+  &__content {
+    margin: 0px 5px 0px 0px;
+    flex: 0 1 280px; // 49.263309%
+  }
+
+  // .offers-item__sale
+
+  &__sale {
+    @include adaptiveValue("margin-bottom", 40, 15, $containerWidth, $minWidth, 1);
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 165px;
+    min-height: 105px;
+
+    .offers-item_blue & {
+      background: url("@img/offers/05.png") center / cover no-repeat;
+      color: #000;
+    }
+
+    .offers-item_grey & {
+      background: url("@img/offers/06.png") center / cover no-repeat;
+      color: #fff;
+    }
+  }
+
+  // .offers-item__only
+
+  &__only {
+    @include adaptiveValue("font-size", 15, 12, $containerWidth, $minWidth, 1);
+    line-height: math.div(10, 15);
+    letter-spacing: 0.15px;
+    text-transform: uppercase;
+  }
+
+  // .offers-item__price
+
+  &__price {
+    font-family: "Cormorant Infant";
+    @include adaptiveValue("font-size", 60, 25, $containerWidth, $minWidth, 1);
+    line-height: math.div(66, 60);
+    letter-spacing: 0.2px;
+  }
+
+  // .offers-item__theme
+
+  &__theme {
+    margin-bottom: rem(8);
+  }
+
+  // .offers-item__title
+
+  &__title {
+    &:not(:last-child) {
+      margin-bottom: rem(5);
+    }
+  }
+
+  // .offers-item__text
+
+  &__text {}
+
+  // .offers-item__image
+
+  &__image {
+    flex: 0 1 51.302158%;
+  }
+
+  // .offers-item__image-ibg
+
+  &__image-ibg {
+    padding-bottom: 80%;
+
+    @media (max-width:$tablet) {
+      padding-bottom: 76%;
+    }
+  }
+}
+
+// ==========================
+
+.popular-dishes {
+  @include adaptiveValue("margin-bottom", 100, 20, $containerWidth, $minWidth, 1);
+  // .popular-dishes__container
+
+  &__container {}
+
+  // .popular-dishes__header
+
+  &__header {
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+    @include adaptiveValue("margin-bottom", 50, 20, $containerWidth, $minWidth, 1);
+  }
+
+  // .popular-dishes__theme
+
+  &__theme {}
+
+  // .popular-dishes__title
+
+  &__title {}
+
+  // .popular-dishes__text
+
+  &__text {}
+
+  // .popular-dishes__menu
+
+  &__menu {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px -15px;
+  }
+
+  // .popular-dishes__menu-item
+
+  &__menu-item {
+    flex: 0 1 25%;
+
+    @media (max-width:$mobile) {
+      flex: 0 1 50%;
+    }
+
+    @media (max-width:$mobileSmall) {
+      flex: 0 1 100%;
+    }
+  }
+
+  &__more {
+    text-align: center;
+    @include adaptiveValue("margin-bottom", 40, 10, $containerWidth, $minWidth, 1);
+  }
+}
+
+.menu-item {
+  transition: all 0.3s ease 0s;
+
+  @media (any-hover: hover) {
+    &:hover {
+      transform: translateY(-10px);
+
+      .menu-item__title {
+        color: $orangeColor;
+      }
+    }
+  }
+
+  // .menu-item__image-ibg
+
+  &__image-ibg {
+    padding-bottom: 100%;
+  }
+
+  &__body {
+    margin: 0px 15px;
+    @include adaptiveValue("margin-bottom", 65, 20, $containerWidth, $minWidth, 1);
+    display: block;
+  }
+
+  // .menu-item__content
+
+  &__content {}
+
+  // .menu-item__header
+
+  &__header {
+    @include adaptiveValue("padding-top", 10, 5, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("padding-bottom", 10, 5, $containerWidth, $minWidth, 1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #DCDCDC;
+  }
+
+  // .menu-item__title
+
+  &__title {
+    font-family: 'Cormorant Infant';
+    font-weight: 700;
+    @include adaptiveValue("font-size", 30, 18, $containerWidth, $minWidth, 1);
+    line-height: math.div(42, 30);
+    letter-spacing: 0.2px;
+    margin: 0px 5px 0px 0px;
+    transition: all 0.3s ease 0s;
+  }
+
+  // .menu-item__price
+
+  &__price {
+    @extend .menu-item__title;
+  }
+
+  &__text {
+    @include adaptiveValue("margin-top", 15, 10, $containerWidth, $minWidth, 1);
+  }
+}
+
+// ==========================
+
+.services {
+  background-color: #292E36;
+  @include adaptiveValue("padding-bottom", 140, 40, $containerWidth, $minWidth, 1);
+  @include adaptiveValue("padding-top", 140, 40, $containerWidth, $minWidth, 1);
+  @include adaptiveValue("margin-bottom", 140, 40, $containerWidth, $minWidth, 1);
+  // .services__container
+
+  &__container {}
+
+  // .services__body
+
+  &__body {
+    display: flex;
+
+    @media (min-width:$tablet) {
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    @media (max-width:$tablet) {
+      flex-direction: column;
+    }
+  }
+
+  // .services__text-content
+
+  &__text-content {
+    @media (min-width:$tablet) {
+      flex: 0 1 450px;
+    }
+
+    @media (max-width:$tablet) {
+      @include adaptiveValue("margin-bottom", 30, 15, $containerWidth, $minWidth, 1);
+    }
+
+    @include adaptiveValue("margin-right", 90, 20, $containerWidth, $minWidth, 1);
+  }
+
+  // .services__theme
+
+  &__theme {
+    @include adaptiveValue("margin-bottom", 10, 5, $containerWidth, $minWidth, 1);
+  }
+
+  // .services__title
+
+  &__title {
+    @include adaptiveValue("margin-bottom", 15, 10, $containerWidth, $minWidth, 1);
+  }
+
+  // .services__text
+
+  &__text {}
+
+  // .services__icons
+
+  &__icons {
+    flex: 1 1 auto;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px -15px;
+  }
+}
+
+.service-icon {
+  flex: 1 0 235px;
+  padding: 0px 15px;
+
+  &:not(:last-child) {
+    @include adaptiveValue("margin-bottom", 25, 15, $containerWidth, $minWidth, 1);
+  }
+
+  // .service-icon__body
+
+  &__body {
+    border: 20px solid #323841;
+    display: flex;
+    align-items: center;
+    min-height: 205px;
+    justify-content: center;
+    flex-direction: column;
+    @include adaptiveValue("padding-top", 30, 15, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("padding-bottom", 30, 15, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("padding-left", 30, 15, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("padding-right", 30, 15, $containerWidth, $minWidth, 1);
+  }
+
+  // .service-icon__image
+
+  &__image {}
+
+  // .service-icon__title
+
+  &__title {
+    color: #fff;
+    @include adaptiveValue("font-size", 25, 18, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("margin-top", 15, 5, $containerWidth, $minWidth, 1);
+    font-family: 'Cormorant Infant';
+    line-height: math.div(35, 25);
+    text-align: center;
+    letter-spacing: 0.2px;
+  }
+}
+
+// ==========================
+
+.news {
+  @include adaptiveValue("margin-bottom", 100, 20, $containerWidth, $minWidth, 1);
+  // .news__container
+
+  &__container {}
+
+  // .news__header
+
+  &__header {
+    text-align: center;
+    @include adaptiveValue("margin-bottom", 40, 15, $containerWidth, $minWidth, 1);
+  }
+
+  // .news__theme
+
+  &__theme {
+    @include adaptiveValue("margin-bottom", 12, 8, $containerWidth, $minWidth, 1);
+  }
+
+  // .news__title
+
+  &__title {
+    margin-bottom: rem(8);
+  }
+
+  // .news__text
+
+  &__text {}
+
+  // .news__content
+
+  &__content {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px -25px;
+  }
+
+  // .news__item
+
+  &__item {
+    flex: 0 1 50%;
+
+    @media (max-width:$mobile) {
+      flex: 1 1 100%;
+    }
+
+    padding: 0px 25px;
+  }
+}
+
+.news-item {
+  @include adaptiveValue("margin-bottom", 50, 20, $containerWidth, $minWidth, 1);
+  // .news-item__image-ibg
+
+  &__image-ibg {
+    padding-bottom: 60.543165%;
+    transition: all 0.3s ease 0s;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      transition: all 0.3s ease 0s;
+    }
+
+    @media (any-hover: hover) {
+      &:hover {
+        &::after {
+          background-color: rgba(0, 0, 0, 0.65);
+        }
+
+        .news-item__button {
+          opacity: 1;
+        }
+      }
+    }
+
+    @media (any-hover: none) {
+      &::after {
+        background-color: rgba(0, 0, 0, 0.65);
+      }
+
+      .news-item__button {
+        opacity: 1;
+      }
+    }
+  }
+
+  // .news-item__button
+
+  &__button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    opacity: 0;
+  }
+
+  // .news-item__content
+
+  &__content {
+    border: 1px solid #C4C4C4;
+    border-top: none;
+    @include adaptiveValue("padding-left", 45, 20, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("padding-right", 45, 20, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("padding-top", 50, 25, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("padding-bottom", 40, 15, $containerWidth, $minWidth, 1);
+  }
+
+  // .news-item__themes
+
+  &__themes {
+    @include adaptiveValue("font-size", 16, 10, $containerWidth, $minWidth, 1);
+  }
+
+  // .news-item__theme
+
+  &__theme {
+    margin-bottom: rem(10);
+
+    &:not(:last-child) {
+      @include adaptiveValue("margin-right", 30, 10, $containerWidth, $minWidth, 1);
+    }
+  }
+
+  // .news-item__title
+
+  &__title {
+    font-family: 'Cormorant Infant';
+    @include adaptiveValue("font-size", 30, 18, $containerWidth, $minWidth, 1);
+    line-height: math.div(39, 30);
+    letter-spacing: 0.2px;
+    text-transform: capitalize;
+    @include adaptiveValue("margin-bottom", 25, 10, $containerWidth, $minWidth, 1);
+  }
+
+  // .news-item__text
+
+  &__text {}
+}
+
+// ==========================
+
+.reservation {
+  @include adaptiveValue("padding-top", 140, 50, $containerWidth, $minWidth, 1);
+  @include adaptiveValue("padding-bottom", 140, 50, $containerWidth, $minWidth, 1);
+  position: relative;
+  // .reservation__container
+
+  &__container {}
+
+  // .reservation__body
+
+  &__body {
+    max-width: 920px;
+    margin: 0 auto;
+    @include adaptiveValue("padding-left", 140, 40, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("padding-right", 140, 40, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("padding-top", 140, 40, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("padding-bottom", 155, 50, $containerWidth, $minWidth, 1);
+    background-color: rgba(41, 46, 54, 0.95);
+    position: relative;
+    z-index: 2;
+  }
+
+  // .reservation__header
+
+  &__header {
+    text-align: center;
+  }
+
+  // .reservation__theme
+
+  &__theme {
+    @include adaptiveValue("margin-bottom", 12, 8, $containerWidth, $minWidth, 1);
+  }
+
+  // .reservation__title
+
+  &__title {
+    @include adaptiveValue("margin-bottom", 40, 15, $containerWidth, $minWidth, 1);
+  }
+
+  // .reservation__form
+
+  &__form {}
+
+  // .reservation__image-ibg
+
+  &__image-ibg {
+    position: static;
+
+  }
+}
+
+.form-reservation {
+  text-align: center;
+
+  &__body {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  // .form-reservation__input
+
+  &__input {}
+
+  // .form-reservation__item
+
+  &__item {
+    flex: 1 1 28%;
+    @include adaptiveValue("margin-bottom", 30, 15, $containerWidth, $minWidth, 1);
+    @include adaptiveValue("margin-right", 20, 10, $containerWidth, $minWidth, 1);
+
+    @media (max-width:$mobileSmall) {
+      flex: 1 1 100%;
+    }
+
+    &_big {
+      flex: 1 1 46%;
+
+      @media (max-width:$mobileSmall) {
+        flex: 1 1 100%;
+      }
+    }
+  }
+}
+
+
+// ==========================
+
+/* ===================================== */

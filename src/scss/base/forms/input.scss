@@ -1,0 +1,41 @@
+//<INPUT>
+// Снипет (HTML): inp
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+.input {
+	border-radius: 0 !important;
+	width: 100%;
+	display: block;
+	border: 1px solid #858585;
+	background-color: transparent;
+	@include adaptiveValue("padding-right", 23, 12, $containerWidth, $minWidth, 1);
+	@include adaptiveValue("padding-left", 23, 12, $containerWidth, $minWidth, 1);
+	@include adaptiveValue("min-height", 70, 40, $containerWidth, $minWidth, 1);
+	@include adaptiveValue("font-size", 22, 16, $containerWidth, $minWidth, 1);
+	line-height: math.div(33, 22);
+	letter-spacing: 0.2px;
+	color: #fff;
+	&[type="date"] {
+		font-family: "Josefin Sans", sans-serif;
+		&::-webkit-calendar-picker-indicator {
+			filter: invert(1);
+		}
+	}
+	&::placeholder {
+		color: #FFFFFF;
+	}
+	&._focus {
+	}
+	&._error {
+	}
+}
+textarea.input {
+	resize: none;
+	padding: 0px 0px;
+}

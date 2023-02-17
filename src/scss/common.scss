@@ -1,0 +1,92 @@
+// Заголовки, общие БЄМ блоки и проче...
+
+.social-links {
+    
+	// .social-links__content
+
+	&__content {
+        display: flex;
+        align-items: center;
+	}
+
+	// .social-links__item
+
+	&__item {
+        margin: 0px 20px 0px 0px;
+        &::before{
+            transition: color 0.3s ease 0s;
+        }
+        @media (any-hover: hover){
+            &:hover{
+                &::before{
+                    color: $orangeColor;                    
+                }
+            }
+        }
+	}
+}
+
+.title {
+    font-family: 'Cormorant Infant';
+    @include adaptiveValue("font-size", 40, 20, $containerWidth, $minWidth, 1);
+    line-height: math.div(56, 40);
+    letter-spacing: 0.2px;
+    text-transform: capitalize;
+    &_small {
+        @include adaptiveValue("font-size", 30, 18, $containerWidth, $minWidth, 1);
+        line-height: math.div(42, 30);
+    }
+    &_white {
+        color: #fff;
+    }
+}
+
+.text {
+    @include adaptiveValue("font-size", 20, 16, $containerWidth, $minWidth, 1);
+    line-height: math.div(30, 20);
+    letter-spacing: 0.2px;
+    color: #555555;
+    &_white {
+        color: #fff;
+    }
+    &_yellow {
+        color: $orangeColor;
+    }
+}
+
+.theme {
+    @include adaptiveValue("font-size", 15, 14, $containerWidth, $minWidth, 1);
+    line-height: 1.566667;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: $blackColor;
+    border-top: 1px solid $orangeColor;
+    border-bottom: 1px solid $orangeColor;
+    display: inline-block;
+    padding: 3px 0 0 0;
+    &_white {
+        color: #fff;
+    }
+    &_grey {
+        border-top-color: $blackColor;
+        border-bottom-color: $blackColor;
+    }
+}
+
+.swiper-wrapper {
+}
+.swiper-slide {
+}
+
+.form-search {
+
+    // .form-search__input
+
+    &__input {
+    }
+
+    // .form-search__button
+
+    &__button {
+    }
+}

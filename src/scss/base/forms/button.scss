@@ -1,0 +1,61 @@
+//<BUTTONS (a.btn+tab)>
+// Снипет (HTML): btn
+
+.button {
+	display: inline-flex;
+	@include adaptiveValue("font-size", 22, 16, $containerWidth, $minWidth, 1);
+	@include adaptiveValue("padding-left", 50, 16, $containerWidth, $minWidth, 1);
+	@include adaptiveValue("padding-right", 50, 16, $containerWidth, $minWidth, 1);
+	@include adaptiveValue("padding-top", 22, 16, $containerWidth, $minWidth, 1);
+	@include adaptiveValue("padding-bottom", 22, 16, $containerWidth, $minWidth, 1);
+	line-height: math.div(33, 22);
+	text-align: center;
+	align-items: center;
+	letter-spacing: 0.2px;
+	border: 2px solid $orangeColor;
+	background-color: $orangeColor;
+	transition: all 0.3s ease 0s;
+
+	@media (any-hover: hover) {
+		&:hover {
+			background-color: transparent;
+			color: $orangeColor;
+		}
+	}
+
+	&._fw {
+		width: 100%;
+	}
+
+	&_transparent {
+		background-color: transparent;
+		color: #fff;
+		@media (any-hover: hover){
+			&:hover{
+				background-color: $orangeColor;
+				color: #000;
+			}
+		}
+		&-color {
+			background-color: transparent;
+			color: $orangeColor;
+			@media (any-hover: hover){
+				&:hover{
+					background-color: $orangeColor;
+					color:#000;
+				}
+			}
+		}
+	}	
+
+	&_grey {
+		background-color: #fff;
+		border-color: #fff;
+		@media (any-hover: hover){
+			&:hover{
+				color:#fff;
+			}
+		}
+	}
+
+}
